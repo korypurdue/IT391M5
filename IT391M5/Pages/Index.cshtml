@@ -1,0 +1,60 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+
+    <p>Please enter the address information below:</p>
+
+    <form onsubmit="myMap();" name="Address" method="post">
+        <label for="StreetNum">Street Number:</label>
+        <input name="StreetNum" type="text" /><br />
+        <label for="StreetName">Street Name:</label>
+        <input name="StreetName" type="text" /><br />
+        <label for="City">City:</label>
+        <input name="City" type="text" /><br />
+        <label for="State">State:</label>
+        <input name="State" type="text" /><br />
+        <label for="Zip">ZIP:</label>
+        <input name="Zip" type="text" /><br />
+        <label for="Country">Country:</label>
+        <input name="Country" type="text" /><br />
+        <input id="submit" runat="server" type="submit" value="Submit" /><br />
+    </form>
+    <br />
+
+    <h2>RoadMap View</h2>
+    <div id="roadMap" style="width:100%;height:400px;"></div><br />
+
+    <script>
+        function myMap() {
+            var mapProp = {
+                center: new google.maps.LatLng(@Model.currentcord.Latitude, @Model.currentcord.Longitude),
+                zoom: 15,
+                mapTypeControlOptions: {
+                    mapTypeIds: ["roadmap", "satellite", "hybrid", "terrain"],
+                },
+                navigationControl: true,
+                navigationControlOptions:
+                {
+                    style: google.maps.NavigationControlStyle.ZOOM_PAN
+                }
+            };
+            var map = new google.maps.Map(document.getElementById("roadMap"), mapProp);
+            var marker = new google.maps.Marker
+                (
+                    {
+                        position: new google.maps.LatLng(@Model.currentcord.Latitude, @Model.currentcord.Longitude),
+                        map: map,
+                    }
+            );
+        }
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmbzpCKh8PdP-8nkGgYJQxlus2SeCjpZY&callback=myMap"></script>
+
+</div>
